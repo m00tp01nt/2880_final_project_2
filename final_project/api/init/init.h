@@ -9,6 +9,8 @@ extern volatile int oi_initialized;
 
 extern oi_t* oi;
 
+#define SONG_BLOCKING 1
+
 #define SONG_LENGTH 4
 #define NOTE_LENGTH 8
 

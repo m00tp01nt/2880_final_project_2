@@ -5,4 +5,9 @@
 
 void api_song(SONG);
 
+void api_song_start(void);
+void api_song_item_found(void);
+void api_song_problem(void);
+void api_song_arrived(void);
+
 #endif

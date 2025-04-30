@@ -11,6 +11,12 @@ volatile int mcu_initialized = 0;
 volatile int oi_initialized = 0;
 oi_t* oi;
 
+unsigned char song_c_major_notes[SONG_LENGTH] = { 60, 64, 67, 72 };
+unsigned char song_f_major_notes[SONG_LENGTH] = { 60, 65, 69, 72 };
+unsigned char song_a_minor_notes[SONG_LENGTH] = { 64, 69, 72, 76 };
+unsigned char song_g_major_notes[SONG_LENGTH] = { 62, 67, 71, 74 };
+unsigned char song_note_length[SONG_LENGTH]   = { NOTE_LENGTH, NOTE_LENGTH, NOTE_LENGTH, NOTE_LENGTH };
+
 void api_init_mcu()
 {
     // UART
@@ -51,17 +57,31 @@ void api_init_mcu()
 }
 
 void api_init_oi() {
+    loglevel(PUTTY, INIT, "Initializing open interface...");
     oi = oi_alloc();
     oi_init(oi);
-    loglevel(PUTTY, INIT, "Initialized open interface");
+    loglevel(PUTTY, INIT, "Done");
     oi_setWheels(0, 0);
     oi_initialized = 1;
-    loglevel(PUTTY, INFO, "Done initializing open interface");
+    loglevel(PUTTY, INFO, "Finished initializing open interface");
+}
+
+void api_init_oi_songs() {
+    loglevel(PUTTY, INIT, "Loading the songs into open interface...");
+
+    oi_loadSong(START, SONG_LENGTH, song_c_major_notes, song_note_length);
+    oi_loadSong(ITEM_FOUND, SONG_LENGTH, song_f_major_notes, song_note_length);
+    oi_loadSong(PROBLEM, SONG_LENGTH, song_a_minor_notes, song_note_length);
+    oi_loadSong(ARRIVED, SONG_LENGTH, song_g_major_notes, song_note_length);
+
+    loglevel(PUTTY, INIT, "Done");
+    loglevel(PUTTY, INFO, "Songs are loaded into open interface");
 }
 
 void api_init() {
     api_init_mcu();
     api_init_oi();
+    api_init_oi_songs();
 }
 
 void api_terminate() {

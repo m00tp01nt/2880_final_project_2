@@ -18,9 +18,7 @@ int main(void)
 {
     api_init();
 
-    api_button_onpress(-1, buttonpress);
-
-    api_song(START);
+    api_button_onpress(5, buttonpress);
 
     api_terminate();
     loglevel(LCD, EVENT, "Done!");

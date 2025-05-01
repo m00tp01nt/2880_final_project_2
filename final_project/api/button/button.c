@@ -16,7 +16,7 @@ void api_button_onpress(uint8_t exit, void (*event)(uint8_t)) {
         button = button_getButton();
         if (button == exit) break;
         else if (button) {
-            loglevel(PUTTY, DATA, "Button %d pressed", button);
+            loglevel(PUTTY, EVENT, "Button %d pressed", button);
             event(button);
             while (button_getButton() == button) {}
         }

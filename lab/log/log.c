@@ -1,4 +1,5 @@
 #include <lab/log/log.h>
+#include <string.h>
 
 #define ENABLE_LOGS 1
 
@@ -31,17 +32,32 @@ void loga(char* message)
 {
     loglevel(PUTTY, INFO, message);
     loglevel(LCD, INFO, message);
-//    log_message(PUTTY, message);
-//    log_message(LCD, message);
 }
 
-void loglevel(LOG_DEVICE detination, LEVEL level, const char* message, ...) {
-    static char buffer[MAX_MESSAGE_LENGTH];
+void loglevel(LOG_DEVICE destination, LEVEL level, const char* message, ...) {
+    char buffer[MAX_MESSAGE_LENGTH];
+
+    // Adapted from lcd.c/.h >>>
     va_list arglist;
     va_start(arglist, message);
     vsnprintf(buffer, MAX_MESSAGE_LENGTH, message, arglist);
+    // <<<
+
     if (level <= LOG_LEVEL) {
-        log_message(detination, buffer);
+        if (destination == PUTTY) {
+            char type[10 + MAX_MESSAGE_LENGTH];
+            type[0] = '\0';
+            if (level == ERROR)         strcat(type, "[ERROR]\t");
+            else if (level == EVENT)    strcat(type, "[EVENT]\t");
+            else if (level == INFO)     strcat(type, "[INFO]\t");
+            else if (level == INIT)     strcat(type, "[INIT]\t");
+            else if (level == DATA)     strcat(type, "[DATA]\t");
+            strcat(type, buffer);
+            log_message(PUTTY, type);
+        }
+        else {
+            log_message(destination, buffer);
+        }
     }
     va_end(arglist);
 }

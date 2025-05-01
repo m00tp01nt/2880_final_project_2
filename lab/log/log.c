@@ -36,7 +36,7 @@ void loga(char* message)
 }
 
 void loglevel(LOG_DEVICE detination, LEVEL level, const char* message, ...) {
-    char buffer[MAX_MESSAGE_LENGTH];
+    static char buffer[MAX_MESSAGE_LENGTH];
     va_list arglist;
     va_start(arglist, message);
     vsnprintf(buffer, MAX_MESSAGE_LENGTH, message, arglist);

@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 
-#define MAX_MESSAGE_LENGTH 50
+#define MAX_MESSAGE_LENGTH 64
 
 typedef enum LOG_DEVICE {
     LCD,

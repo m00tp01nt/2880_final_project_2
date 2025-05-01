@@ -1,5 +1,3 @@
-
-
 /**
  * main.c
  */
@@ -20,7 +18,7 @@ int main(void)
 {
     api_init();
 
-    api_button_onpress(15, buttonpress);
+    api_button_onpress(-1, buttonpress);
 
     api_song(START);
 

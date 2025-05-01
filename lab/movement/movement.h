@@ -29,20 +29,22 @@ typedef enum BUMP {
     BUMP_RIGHT
 } BUMP;
 
-double doubleMin(double a, double b);
-double doubleMax(double a, double b);
-int doubleIsBetween(double lower, double upper, double value);
+double doubleMin(double, double);
+double doubleMax(double, double);
+int doubleIsBetween(double, double, double);
 
-double getRealDegreeTarget(double targetDegrees);
+double getRealDegreeTarget(double);
 
 double move(oi_t*, double, LINEAR_MOVEMENT, void(oi_t*, BUMP*, double*));
 double move_dieOnBump(oi_t*, double, LINEAR_MOVEMENT);
 
-double rotate(oi_t *sensor_data, double angle, ROTATE_MOVEMENT direction, void(oi_t*, BUMP*, double*));
+double rotate(oi_t*, double, ROTATE_MOVEMENT, void(oi_t*, BUMP*, double*));
 
-double just_move(oi_t *sensor_data, double distance_mm);
-double just_turn(oi_t *sensor_data, double distance_mm);
+double just_move(oi_t*, double);
+double just_turn(oi_t*, double);
 
-BUMP bumpData(oi_t *sensor_data);
+BUMP bumpData(oi_t*);
+
+void grobro_scan_and_drive(oi_t*);
 
 #endif

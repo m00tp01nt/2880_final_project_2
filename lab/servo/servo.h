@@ -8,6 +8,8 @@
 #include <math.h>
 #include <lab/log/log.h>
 
+#define SERVO_TURN_SPEED 50
+
 void servo_init(void);
 void servo_move(uint16_t);
 

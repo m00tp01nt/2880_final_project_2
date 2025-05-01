@@ -1,7 +1,5 @@
 #include <lab/servo/servo.h>
 
-uint16_t currentAngle = 90;
-
 void servo_init()
 {
     // Timer 1B, GPIO PB5
@@ -29,6 +27,8 @@ void servo_init()
 
 void servo_move(uint16_t degrees)
 {
+    static uint16_t previousDegrees = 90;
+
     // Stop the timer
     TIMER1_CTL_R &= ~0b100000000;   // Page 737
 
@@ -53,9 +53,8 @@ void servo_move(uint16_t degrees)
 
     // Start the timer
     TIMER1_CTL_R |= 0b100000000;   // Page 737
-    //TIMER1_CTL_R |= TIMER_CTL_TBEN
 
-    #warning FIX ME!
+    uint32_t delay = abs(degrees - previousDegrees) * SERVO_TURN_SPEED;
+    previousDegrees = degrees;
     timer_waitMillis(2000);
-    currentAngle = degrees;
 }

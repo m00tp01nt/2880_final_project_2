@@ -1,5 +1,5 @@
 To use these files...
-1) Make a file in your 288 workspace
+1) Make a project in your 288 workspace
 2) Move all these files into the workspace
 
 When done...

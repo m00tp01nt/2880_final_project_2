@@ -13,6 +13,11 @@
 // Would love to put this in 'movement.h', but the compiler throws a fit.
 #include <lab/movement/bump/bump_handlers.h>
 
+#include <lab/servo/servo.h>
+#include <lab/servo/ping/ping.h>
+#include <lab/servo/ir/ir.h>
+#include <lab/adc.h>
+
 #define ROTATE_SPEED 50
 #define LATERAL_SPEED 200
 
@@ -220,7 +225,7 @@ double just_turn(oi_t *sensor_data, double angle)
 
 void grobro_scan_and_drive(oi_t *sensor_data)
 {
-    cyBOT_Scan_t scan;
+//    cyBOT_Scan_t scan;
     int object_found = 0;
     double distance_traveled = 0;
 
@@ -235,15 +240,18 @@ void grobro_scan_and_drive(oi_t *sensor_data)
 
     while (distance_traveled < 2000)
     {
-        cyBOT_Scan(180, &scan);  // Fixed angle = 0° for left scan // CORRECTION - 180° to face left
+        servo_move(180);  // Fixed angle = 0° for left scan // CORRECTION - 180° to face left
+
+        float pingDistance = ping_getDistance();
+        float irDistance = adc_read();
 
 //        Replaced with loglevel()
 //        char buffer[64];
 //        sprintf(buffer, "LEFT | IR: %d | Ping: %.2f\r\n", scan.IR_raw_val, scan.sound_dist);
 //        uart_sendStr(buffer);
-        loglevel(PUTTY, DATA, "LEFT | IR: %d | Ping: %.2f\r\n", scan.IR_raw_val, scan.sound_dist);
+        loglevel(PUTTY, DATA, "LEFT | IR: %d | Ping: %.2f\r\n", irDistance, pingDistance);
 
-        if (scan.sound_dist > 0 && scan.sound_dist < 30.0)
+        if (pingDistance > 0.0 && pingDistance < 30.0)
         {
             object_found = 1;
             oi_setWheels(0, 0);
@@ -270,19 +278,22 @@ void grobro_scan_and_drive(oi_t *sensor_data)
         loglevel(PUTTY, EVENT, "GroBro: No object on left. Backing up and scanning right...");
         loglevel(LCD, EVENT, "Scan Right\nBacking Up");
 
+        float pingDistance = ping_getDistance();
+        float irDistance = adc_read();
+
         double reversed = 0;
         oi_setWheels(-100, -100); // Back up slowly
 
         while (reversed > -distance_traveled)
         {
-            cyBOT_Scan(180, &scan); // Fixed angle = 180° for right scan
+            servo_move(180); // Fixed angle = 180° for right scan
 //            Replaced with loglevel()
 //            char buffer[64];
 //            sprintf(buffer, "RIGHT | IR: %d | Ping: %.2f\r\n", scan.IR_raw_val, scan.sound_dist);
 //            uart_sendStr(buffer);
-            loglevel(PUTTY, DATA, "RIGHT | IR: %d | Ping: %.2f\r\n", scan.IR_raw_val, scan.sound_dist);
+            loglevel(PUTTY, DATA, "LEFT | IR: %d | Ping: %.2f\r\n", irDistance, pingDistance);
 
-            if (scan.sound_dist > 0 && scan.sound_dist < 30.0)
+            if (pingDistance > 0.0 && pingDistance < 30.0)
             {
                 object_found = 1;
                 oi_setWheels(0, 0);

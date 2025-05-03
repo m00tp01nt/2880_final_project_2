@@ -31,7 +31,7 @@ void api_init_mcu()
     loglevel(PUTTY, INIT, "Done");
 
     // Button
-    loglevel(PUTTY, INIT, "Initializing buttons...");
+    loglevel(PUTTY, INIT, "Initializing button...");
     button_init();
     loglevel(PUTTY, INIT, "Done");
 

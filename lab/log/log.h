@@ -19,9 +19,9 @@ typedef enum LOG_DEVICE {
 typedef enum LEVEL {
     ERROR = 0,
     EVENT = 1,
-    INFO = 2,
-    INIT = 3,
-    DATA = 4
+    INFO  = 2,
+    INIT  = 3,
+    DATA  = 4
 } LEVEL;
 
 #define LOG_LEVEL DATA
